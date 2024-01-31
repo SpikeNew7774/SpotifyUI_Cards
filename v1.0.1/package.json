@@ -1,0 +1,20 @@
+{
+  "name": "spotify_ui_cards",
+  "version": "1.0.1",
+  "description": "This is an app that makes your spotify playlist in a Spotify UI Card. You have just got to request one from us!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env ./index.js"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "keywords": [],
+  "author": "Spikerko",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.3"
+  }
+}
