@@ -1,0 +1,30 @@
+[
+    {
+        "user_id": "31df5rin7m6sllcfgg6rx3grcy54",
+        "by_spikerko": "true",
+        "by_spotify": "false",
+        "verified_status": "true",
+        "bg": "true"
+    },
+    {
+        "user_id": "spotify",
+        "by_spikerko": "false",
+        "by_spotify": "true",
+        "verified_status": "true",
+        "bg": "true"
+    },
+    {
+        "user_id": "31ofivgwtomcn7ldo5ist23e6toy",
+        "by_spikerko": "false",
+        "by_spotify": "false",
+        "verified_status": "true",
+        "bg": "true"
+    },
+    {
+        "user_id": "31mvxqzyj6oikstonzfdsm2nzev4",
+        "by_spikerko": "false",
+        "by_spotify": "false",
+        "verified_status": "true",
+        "bg": "false"
+    }
+]
