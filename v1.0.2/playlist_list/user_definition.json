@@ -26,5 +26,12 @@
         "by_spotify": "false",
         "verified_status": "true",
         "bg": "false"
+    },
+    {
+        "user_id": "31k73m4b2raqsrhlqtghigwy7xfu",
+        "by_spikerko": "false",
+        "by_spotify": "false",
+        "verified_status": "true",
+        "bg": "true"
     }
 ]
