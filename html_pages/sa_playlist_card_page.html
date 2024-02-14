@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles/preloader_style">
+    <link rel="stylesheet" href="/css/styles/beta_card_style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Spotify UI Cards</title>
+</head>
+<body>
+    <div class="preloader-wrapper">
+        <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+        <dotlottie-player src="/sptct_cdn/lottie-animations/lottie/preload_rl" background="transparent" speed="1" style="width: 300px; height: 300px" direction="1" mode="normal" loop="" autoplay=""></dotlottie-player>
+      </div>
+  <div class="backgroundCover"></div>
+    <div class="card">
+      <div class="spotifyofficialslogo"><span></span></div>
+      <div class="bykaajogurt-logo"><span></span></div>
+      <div class="byspikerko"><span></span></div>
+      <div class="verifiedlogo"><span></span></div>
+
+        <div class="cover">
+            <div class="picture" loading="lazy"></div>
+          <!-- <img src="" alt="cover" /> -->
+          <div class="play-pause-icon" onclick="PlayBtn();">
+            <i class="fa fa-play"></i>
+          </div>
+        </div>
+        <div class="card-content">
+          <h4><a class="plistname1" onclick="PlayBtn();">playlist_name</a></h4> <!-- Spikerko's Favourites -->
+          <p class="description">Listen to the <a style="color: rgb(231, 231, 231);" class="plistname2" onclick="PlayBtn();">playlist_name</a> playlist now, on Spotify!</p> <!-- Spikerko's Favourites -->
+        </div>
+      </div>
+      <!-- <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2NpgzmbJKMc3n7KJQWfTC1?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe> -->
+
+  <script>
+
+    // load card
+    function loadCard(cardPlaylistID, url = window.location.href) {
+      cardPlaylistID = cardPlaylistID.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + cardPlaylistID + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function withDescr(withDescr, url = window.location.href) {
+      withDescr = withDescr.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + withDescr + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    fetch('/api/use_spotify_api/spotify_ui_card/playlists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ p_id: loadCard('cardPlaylistID') })
+      })
+        .then(response => response.json())
+        .then(data => {
+
+        if (data.error === "01") {
+          document.querySelector(".preloader-wrapper").classList.add('completed')
+          //      document.querySelector(".preloader-wrapper dotlottie-player").src = "";
+                document.querySelector(".card").style.display = "inline-block";
+            //    document.querySelector(".preloader-wrapper").style.opacity = "0";
+           //     document.querySelector(".preloader-wrapper").innerHTML = "";
+                setTimeout(() => {
+                  document.querySelector(".preloader-wrapper").style.display = "none"
+                  document.querySelector(".preloader-wrapper dotlottie-player").src = "";
+                  document.querySelector(".preloader-wrapper").innerHTML = "";
+                }, 200);
+
+
+            const undefinedPlaylist = "<h4>The playlist does not exist or it's private.</h4>"
+            document.querySelector(".card").style.width = "359px"
+            document.querySelector(".card").style.color = "white"
+            document.querySelector(".card").style.cursor = "default"
+            document.querySelector(".card").innerHTML = undefinedPlaylist;
+          } else {
+
+            const plistCover = data.plist_cover_url;// /sptct_cdn/lottie-animations/lottie/preload_rl
+            const plistName = data.plist_name;
+            const plistUrl = data.plist_url;
+            const plistOwner = data.plist_owner;
+            const plistDesc = data.plist_description;
+            const spoff = data.by_spotify;
+            const verf = data.verified_status;
+            const byspikerko = data.by_spikerko;
+            const bykaajogurt123 = data.by_kaajogurt123;
+            const useBg = data.bg;
+
+          if (bykaajogurt123 == "true") {
+            document.querySelector(".bykaajogurt-logo").style.display = "block";
+            document.querySelector(".bykaajogurt-logo").style.bottom = "12px";
+            document.querySelector(".verifiedlogo").style.bottom = "5.3px";
+          } else {
+            document.querySelector(".bykaajogurt-logo").style.display = "none";
+            document.querySelector(".bykaajogurt-logo").style.bottom = "5.3px";
+            document.querySelector(".verifiedlogo").style.bottom = "10.3px";
+          }
+
+
+          if (useBg == "true") {
+            document.querySelector(".backgroundCover").style.backgroundRepeat = "repeat";
+            document.querySelector(".backgroundCover").style.backgroundAttachment = "fixed";
+            document.querySelector(".backgroundCover").style.backgroundSize = "50%";
+            document.querySelector(".backgroundCover").style.filter = "blur(10px)";
+            document.querySelector(".backgroundCover").style.display = "block";
+            document.querySelector(".backgroundCover").style.background = "url('" + plistCover + "')";
+          } else {
+            document.querySelector(".backgroundCover").style.display = "none";
+          }
+
+          if (byspikerko == "true") {
+            document.querySelector(".byspikerko").style.display = "block";
+            document.querySelector(".byspikerko").style.bottom = "10.3px";
+            document.querySelector(".verifiedlogo").style.bottom = "5.3px";
+          } else {
+            document.querySelector(".byspikerko").style.display = "none";
+            document.querySelector(".byspikerko").style.bottom = "5.3px";
+            document.querySelector(".verifiedlogo").style.bottom = "10.3px";
+          }
+
+          if (spoff == "true") {
+            document.querySelector(".spotifyofficialslogo").style.display = "block";
+            document.querySelector(".verifiedlogo").style.bottom = "5.3px";
+            document.querySelector(".byspikerko").style.bottom = "7.3px";
+            document.querySelector(".bykaajogurt-logo").style.bottom = "8px";
+          } else if (spoff == "false") {
+            document.querySelector(".spotifyofficialslogo").style.display = "none";
+            document.querySelector(".byspikerko").style.bottom = "10.3px";
+            document.querySelector(".verifiedlogo").style.bottom = "10.3px";
+          } else {
+            document.querySelector(".spotifyofficialslogo").style.display = "none";
+          }
+
+          if (verf == "true") {
+            document.querySelector(".verifiedlogo").style.display = "block";
+          } else if (verf == "true" && byspikerko == "true") {
+            document.querySelector(".verifiedlogo").style.display = "block";
+            document.querySelector(".verifiedlogo").style.top = "13.324px";
+          } else {
+            document.querySelector(".verifiedlogo").style.display = "none";
+          }
+
+
+            document.querySelector(".play-pause-icon").setAttribute("onclick", "PlayBtn('" + loadCard('cardPlaylistID') + "');");
+            document.querySelector(".plistname1").setAttribute("onclick", "PlayBtn('" + loadCard('cardPlaylistID') + "');");
+            document.querySelector(".plistname2").setAttribute("onclick", "PlayBtn('" + loadCard('cardPlaylistID') + "');");
+
+            document.querySelector(".cover .picture").style.background = "url('" + plistCover + "')";
+            document.querySelector(".cover .picture").style.backgroundSize = "300px 300px";
+            document.querySelector(".plistname1").textContent = plistName;
+            
+            if (withDescr('withDescr') == "1") {
+                document.querySelector(".card-content .description").innerHTML = "";
+                document.querySelector(".card-content .description").textContent = plistDesc;
+            } else {
+                document.querySelector(".plistname2").textContent = plistName;
+            }
+            document.title = plistName + " - Spotify Playlist";
+
+           
+            document.querySelector(".preloader-wrapper").classList.add('completed')
+          //      document.querySelector(".preloader-wrapper dotlottie-player").src = "";
+                document.querySelector(".card").style.display = "inline-block";
+            //    document.querySelector(".preloader-wrapper").style.opacity = "0";
+           //     document.querySelector(".preloader-wrapper").innerHTML = "";
+                setTimeout(() => {
+                  document.querySelector(".preloader-wrapper").style.display = "none"
+                  document.querySelector(".preloader-wrapper dotlottie-player").src = "";
+                  document.querySelector(".preloader-wrapper").innerHTML = "";
+                }, 400);
+           
+
+                
+            
+          }
+            
+
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+        function PlayBtn(plistid) {
+            window.open("https://open.spotify.com/playlist/" + plistid ,'popup','width=1920,height=1080');
+        }
+      
+     /* fetch('/api/spotify_previews/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ trackid: '' })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const trackUrl = data.link;
+          console.log(trackUrl);
+        })
+        .catch(error => {
+          console.error(error);
+        }); */
+
+        function doNothing() {};
+      
+        
+      </script>
+</body>
+</html>

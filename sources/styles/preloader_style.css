@@ -1,0 +1,35 @@
+
+
+    div.card {
+        display: none; 
+     }
+
+     .preloader-wrapper {
+        width: 100vw;
+        height: 100vh;
+        z-index: 999;
+        display: flex;
+        column-gap: 10px;
+        flex-direction: column;
+        display: flex;
+        transition: all ease-in-out 300ms;
+
+      }
+
+      .preloader-wrapper.completed {
+        transition: all ease-in-out 300ms;
+        opacity: 0;
+
+      }
+      
+      .preloader-wrapper dotlottie-player {
+        z-index: 99999;
+        display: flex;
+        /* left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); */
+        margin: auto;
+        width: 50%;
+        transition: all ease-in-out 300ms;
+        padding: 0;
+      }
